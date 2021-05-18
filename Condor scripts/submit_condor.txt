@@ -1,0 +1,27 @@
+# Run the command
+# addNum.exe 1 2
+# Name of the executable to run
+Executable = /specific/elhanan/SCRATCH/OrS/condor_FBA_v2/run.csh
+# The arguments to give to the executable
+Arguments = run_experiments(\"config_10spec_V2_cluster_condor.txt\", $(Process) + 1, 1)
+
+# Set Priority high to allow the system to wake up computers
+Priority=high
+
+# File to write any errors to
+Error = m_condor$(Process)_err.txt
+# File to write program output to
+Output = m_condor$(Process)_out.txt
+# File for Condor to log information to
+Log = m_condor$(Process)_log.txt
+# Set this unless all the files you require are already on the computer
+should_transfer_files = YES
+# Files are sent back when job finishes
+when_to_transfer_output = ON_EXIT
+getenv = True
+Stream_error = True
+Stream_output = True
+Requirements = (Machine == "rack-elhanan-01.cs.tau.ac.il")
+
+# Tell Condor to submit this job
+Queue 17

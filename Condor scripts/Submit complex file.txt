@@ -1,0 +1,27 @@
+# Run the command
+# addNum.exe 1 2
+# Name of the executable to run
+Executable = /specific/elhanan/SCRATCH/OrS/condor_FBA_v2/run.csh
+# The arguments to give to the executable
+Arguments = $(index) run_experiments(\"$(config_file)\")
+
+# Set Priority high to allow the system to wake up computers
+Priority=high
+
+# File to write any errors to
+Error = err_condor$(JobID).txt
+# File to write program output to
+Output = out_condor$(JobID).txt
+# File for Condor to log information to
+Log = log_condor$(JobID).txt
+# Set this unless all the files you require are already on the computer
+should_transfer_files = YES
+# Files are sent back when job finishes
+when_to_transfer_output = ON_EXIT
+getenv = True
+Stream_error = True
+Stream_output = True
+Requirements = (Machine == "rack-elhanan-01.cs.tau.ac.il")
+
+# Tell Condor to submit this job
+Queue index, JobID, config_file from runParams_DNDSwitch17x17resetDensity_fillUp.txt
