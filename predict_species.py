@@ -3,14 +3,12 @@ import glob
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor as RF
 import preprocess_tools
-from sklearn.model_selection import KFold
-from sklearn.metrics import mean_squared_error as RMSE
 
-from sklearn.model_selection import KFold
+
 from sklearn.ensemble import RandomForestRegressor as RF
 from sklearn.metrics import mean_squared_error as RMSE
 import json
-import os, sys
+import sys
 import glob
 
 
@@ -26,29 +24,6 @@ def build_fold_dfs(X, Y, folds_dict, fold_num):
     Y_ts = Y.iloc[ts_idx, :]
 
     return X_tr, X_ts, Y_tr, Y_ts
-
-#
-# def get_fold_data(path, fold_num, prefix='fold_'):
-#     p = fr'*{prefix}{fold_num}*'
-#     files = glob.glob(f'{path}/{p}')
-#     return files
-
-def generate_folds(X, out_path, NUM_FOLDS=5, SHOULD_SHUFFLE=False):
-
-    folds_indexes = {}
-    kf = KFold(n_splits=NUM_FOLDS, shuffle=SHOULD_SHUFFLE)
-
-    for j, (tr_idx, ts_idx) in enumerate(kf.split(X), 1):
-        folds_indexes[f'fold_{j}'] = {'tr_idx': [int(i) for i in list(tr_idx)],
-                                      'ts_idx': [int(j) for j in list(ts_idx)]}
-
-
-    os.makedirs(out_path, exist_ok=True)
-    path_to_dict = f'{out_path}/folds_dict.json'
-    with open(path_to_dict, mode='w+') as file:
-        json.dump(folds_indexes, file)  # use `json.loads` to do the reverse
-
-    return (path_to_dict, folds_indexes)
 
 
 def handle_single_fold(X, Y, folds_dict, fold_num, mod):
@@ -172,8 +147,9 @@ def local_pipe(X, Y, path_to_folds_dict):
     return rmse_df, preds_df
 
 if __name__ == '__main__':
-    print(sys.argv)
+
     if len(sys.argv) > 3:
+        action = sys
         path_to_X, path_to_Y, path_to_folds_dict, curr_fold_num = sys.argv[1:]
         preds_fold, rmse_fold = init_fold_job(path_to_X, path_to_Y, path_to_folds_dict, curr_fold_num)
         preds_fold.to_csv(f'preds_fold_{curr_fold_num}.csv')
