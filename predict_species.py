@@ -133,7 +133,6 @@ def transform_y(y_tr, y_ts):
     return (y_tr, y_ts)
 
 
-
 def init_fold_job(path_to_X, path_to_Y, path_to_folds_dict, curr_fold_num, transformer):
     # Read folds dict
     mod_RF = RF(n_jobs = -1)
