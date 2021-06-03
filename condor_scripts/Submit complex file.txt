@@ -1,7 +1,7 @@
 # Run the command
 # addNum.exe 1 2
 # Name of the executable to run
-Executable = /specific/elhanan/SCRATCH/OrS/condor_FBA_v2/run.csh
+Executable = /specific/elhanan/elhanan/PROJECTS/MAT_IMPUTE_DH/condor_scripts/run_RF_disributed_folds.csh
 # The arguments to give to the executable
 Arguments = $(index) run_experiments(\"$(config_file)\")
 
@@ -11,7 +11,7 @@ Priority=high
 # File to write any errors to
 Error = err_condor$(JobID).txt
 # File to write program output to
-Output = out_condor$(JobID).txt
+Output = out_condor$(JobID).csv
 # File for Condor to log information to
 Log = log_condor$(JobID).txt
 # Set this unless all the files you require are already on the computer
@@ -24,4 +24,4 @@ Stream_output = True
 Requirements = (Machine == "rack-elhanan-01.cs.tau.ac.il")
 
 # Tell Condor to submit this job
-Queue index, JobID, config_file from runParams_DNDSwitch17x17resetDensity_fillUp.txt
+Queue index, JobID, config_file from run_params_predict_species_from_metabolomics.txt

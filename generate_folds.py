@@ -26,4 +26,5 @@ if __name__ == '__main__':
 
     if len(sys.argv) > 4:
         sys.argv[4] = bool(sys.argv[4])
+
     generate_folds(*sys.argv[1:])
