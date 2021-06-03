@@ -1,19 +1,20 @@
 # Run the command
 # addNum.exe 1 2
 # Name of the executable to run
-Executable = /specific/elhanan/elhanan/PROJECTS/MAT_IMPUTE_DH/condor_scripts/run_RF_disributed_folds.csh
+Executable = /specific/elhanan/elhanan/PROJECTS/MAT_IMPUTE_DH/condor_scripts/run_distributed_RF.csh
+
 # The arguments to give to the executable
-Arguments = $(index) run_experiments(\"$(config_file)\")
+Arguments = $(path_to_X) $(path_to_Y) $(path_to_dict) $(fold_num)
 
 # Set Priority high to allow the system to wake up computers
 Priority=high
 
 # File to write any errors to
-Error = err_condor$(JobID).txt
+Error = err_condor$(fold_num).txt
 # File to write program output to
-Output = out_condor$(JobID).csv
+Output = out_condor$(fold_num).txt
 # File for Condor to log information to
-Log = log_condor$(JobID).txt
+Log = log_condor$(fold_num).txt
 # Set this unless all the files you require are already on the computer
 should_transfer_files = YES
 # Files are sent back when job finishes
@@ -24,4 +25,4 @@ Stream_output = True
 Requirements = (Machine == "rack-elhanan-01.cs.tau.ac.il")
 
 # Tell Condor to submit this job
-Queue index, JobID, config_file from run_params_predict_species_from_metabolomics.txt
+Queue path_to_X, path_to_Y ,path_to_dict, fold_num from distributed_RF_params.txt

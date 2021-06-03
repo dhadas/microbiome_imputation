@@ -104,7 +104,6 @@ def handle_single_fold(X, Y, folds_dict, fold_num, mod, transformer = None):
 
     preds_df = pd.DataFrame.from_dict(preds_dict)
     rmse_df = pd.Series(rmse_dict, name=f'RMSE_fold_{fold_num}')
-    print(preds_df.isna().sum().sum())
 
     print(f"Finished fold {fold_num}.")
 
@@ -135,20 +134,16 @@ def transform_y(y_tr, y_ts):
 
 
 
-def init_fold_job(path_to_X, path_to_Y, path_to_folds_dict, curr_fold_num):
+def init_fold_job(path_to_X, path_to_Y, path_to_folds_dict, curr_fold_num, transformer):
     # Read folds dict
+    mod_RF = RF(n_jobs = -1)
 
     X = pd.read_csv(path_to_X, index_col='# Sample / Feature')
     Y = pd.read_csv(path_to_Y, index_col='# Sample / Feature')
-    mod_RF = RF(n_jobs = -1)
 
-    with open(path_to_folds_dict, 'r', encoding="utf-8", ) as file:
-        folds_dict = json.load(file)
+    folds_dict = read_fold_dict(path_to_folds_dict)
 
-    print(folds_dict)
-
-    preds_for_fold, rmse_for_fold = handle_single_fold(X, Y, folds_dict, curr_fold_num, mod_RF)
-
+    preds_for_fold, rmse_for_fold = handle_single_fold(X, Y, folds_dict, curr_fold_num, mod_RF, transformer)
 
     print('Finished')
     return (preds_for_fold, rmse_for_fold)
@@ -209,29 +204,29 @@ def generate_folds(X, out_path, NUM_FOLDS=5, SHOULD_SHUFFLE=False):
     return (path_to_dict, folds_dict)
 
 
-if __name__ == '__main__':
-    data_path = '/Users/d_private/OneDrive - mail.tau.ac.il/Lab/data/FRANZOSA_IBD_2019/PARSED_DATA/basic_process_reduce_sparse'
-    path_to_Y = f'{data_path}/stgndf_PRISM_reduced_sparse.csv'
-    path_to_X = f'{data_path}/mbdf_PRISM_reduced_sparse.csv'
-    path_to_dict = '/Users/d_private/OneDrive - mail.tau.ac.il/Lab/data/FRANZOSA_IBD_2019/PARSED_DATA/folds_240521/folds_dict.json'
-    K = 20
-    ignore_zeros_transformer = ignore_Y_zeros_transformer.get_transformer()
-    # preds_for_fold, rmse_for_fold = init_fold_job(path_to_X, path_to_Y, path_to_dict, 1)
-
-    # out_ =  f'{path}/PARSED_DATA/folds_180521'
-    # print(out_)
-    # data_path = '/Users/d_private/PycharmProjects/mat_imputation_demo/resources/demo_data_for_funcs.csv'
-    # X = pd.read_csv(data_path, sep='\t', index_col=0)
-    # generate_folds(X, out_, 3, False)
-    #
-    # Y = pd.read_csv(f'{data_path}/stgndf_PRISM_reduced_sparse.csv', index_col = '# Sample / Feature')
-    # X = pd.read_csv(f'{data_path}/mbdf_PRISM_reduced_sparse.csv', index_col = '# Sample / Feature')
-    # # rmse_df, preds_df = local_pipe(X, Y, path_to_dict)
-    #
-    X = pd.read_csv(path_to_X, index_col='# Sample / Feature')
-    Y = pd.read_csv(path_to_Y, index_col='# Sample / Feature')
-    folds_dict = read_fold_dict(path_to_dict)
-    mod = RF(n_jobs = -1)
-    # print(X)
-
-    preds, rmse = handle_single_fold(X, Y, folds_dict, 1, mod, ignore_zeros_transformer)
+# if __name__ == '__main__':
+#     data_path = '/Users/d_private/OneDrive - mail.tau.ac.il/Lab/data/FRANZOSA_IBD_2019/PARSED_DATA/basic_process_reduce_sparse'
+#     path_to_Y = f'{data_path}/stgndf_PRISM_reduced_sparse.csv'
+#     path_to_X = f'{data_path}/mbdf_PRISM_reduced_sparse.csv'
+#     path_to_dict = '/Users/d_private/OneDrive - mail.tau.ac.il/Lab/data/FRANZOSA_IBD_2019/PARSED_DATA/folds_240521/folds_dict.json'
+#     K = 20
+#     ignore_zeros_transformer = ignore_Y_zeros_transformer.get_transformer()
+#     # preds_for_fold, rmse_for_fold = init_fold_job(path_to_X, path_to_Y, path_to_dict, 1)
+#
+#     # out_ =  f'{path}/PARSED_DATA/folds_180521'
+#     # print(out_)
+#     # data_path = '/Users/d_private/PycharmProjects/mat_imputation_demo/resources/demo_data_for_funcs.csv'
+#     # X = pd.read_csv(data_path, sep='\t', index_col=0)
+#     # generate_folds(X, out_, 3, False)
+#     #
+#     # Y = pd.read_csv(f'{data_path}/stgndf_PRISM_reduced_sparse.csv', index_col = '# Sample / Feature')
+#     # X = pd.read_csv(f'{data_path}/mbdf_PRISM_reduced_sparse.csv', index_col = '# Sample / Feature')
+#     # # rmse_df, preds_df = local_pipe(X, Y, path_to_dict)
+#     #
+#     X = pd.read_csv(path_to_X, index_col='# Sample / Feature')
+#     Y = pd.read_csv(path_to_Y, index_col='# Sample / Feature')
+#     folds_dict = read_fold_dict(path_to_dict)
+#     mod = RF(n_jobs = -1)
+#     # print(X)
+#
+#     preds, rmse = handle_single_fold(X, Y, folds_dict, 1, mod, ignore_zeros_transformer)
