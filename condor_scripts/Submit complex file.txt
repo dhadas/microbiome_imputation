@@ -1,7 +1,7 @@
 # Run the command
 # addNum.exe 1 2
 # Name of the executable to run
-Executable = ./specific/elhanan/elhanan/PROJECTS/MAT_IMPUTE_DH/condor_scripts/run_distributed_RF.csh
+Executable = ./run_distributed_RF.csh
 
 # The arguments to give to the executable
 Arguments = $(path_to_X) $(path_to_Y) $(path_to_dict) $(fold_num)
