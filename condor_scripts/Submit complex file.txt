@@ -10,7 +10,7 @@ Arguments = $(path_to_X) $(path_to_Y) $(path_to_dict) $(fold_num)
 Priority=high
 
 # File to write any errors to
-Error = /outputs/condor_outputs/err_condor$(fold_num).txt
+Error = err_condor$(fold_num).txt
 # File to write program output to
 Output = out_condor$(fold_num).txt
 # File for Condor to log information to
