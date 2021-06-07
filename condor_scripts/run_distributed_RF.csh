@@ -15,7 +15,7 @@ sleep $sleep_time
 
 date +"%T"
 
-python "distributed_RF.py $1 $2 $3 $4"
+python distributed_RF.py $1 $2 $3 $4
 
 
 #matlab -nodisplay -nojvm -nosplash -r "cd ../cobratoolbox; initCobraToolbox; cd ../FBA_v2.0;  $2"

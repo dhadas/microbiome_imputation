@@ -8,8 +8,9 @@ if __name__ == '__main__':
         action = sys
         path_to_X, path_to_Y, path_to_folds_dict, curr_fold_num,  = sys.argv[1:]
         print(sys.argv[1:])
-        ignore_zeros_transformer = ignore_Y_zeros_transformer.get_transformer()
-        preds_fold, rmse_fold = predict_species.init_fold_job(path_to_X, path_to_Y, path_to_folds_dict, curr_fold_num)
+        _transformer = ignore_Y_zeros_transformer.get_transformer()
+        preds_fold, rmse_fold = predict_species.init_fold_job(path_to_X, path_to_Y,
+                                                              path_to_folds_dict, curr_fold_num, _transformer)
 
         preds_fold.to_csv(f'preds_fold_{curr_fold_num}.csv')
         rmse_fold.to_csv(f'rmse_fold_{curr_fold_num}.csv')
