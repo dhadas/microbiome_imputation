@@ -59,7 +59,7 @@ def handle_single_fold(X, Y, folds_dict, fold_num, mod, transformer = None):
     defult_y_min = Y_ts[mask].min().min() / 2
 
     # Iterate through all species (Columns of Y)
-    for i, (otu, abundance) in enumerate(list(Y.iteritems())[:3], 1):
+    for i, (otu, abundance) in enumerate(list(Y.iteritems())[:], 1):
         # y = abundance
         print(otu)
         y_tr, y_ts = Y_tr[otu], Y_ts[otu]
